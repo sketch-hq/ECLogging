@@ -1,16 +1,14 @@
-//
-//  ECTestComparisons.m
-//  ECLogging
-//
-//  Created by Sam Deane on 21/11/2013.
-//  Copyright (c) 2014 Sam Deane, Elegant Chaos. All rights reserved.
-//
+// --------------------------------------------------------------------------
+//  Copyright 2014 Sam Deane, Elegant Chaos. All rights reserved.
+//  This source code is distributed under the terms of Elegant Chaos's
+//  liberal license: http://www.elegantchaos.com/license/liberal
+// --------------------------------------------------------------------------
 
 #import "ECTestComparisons.h"
 
-@implementation NSObject(ECTestComparisons)
+@implementation NSObject (ECTestComparisons)
 
-- (BOOL)matches:(id)item2  block:(ECTestComparisonBlock)block
+- (BOOL)matches:(id)item2 block:(ECTestComparisonBlock)block
 {
 	Class c1 = [self class];
 	Class c2 = [item2 class];
@@ -19,11 +17,11 @@
 		context = [NSString stringWithFormat:@"%@", [self nameForMatching]];
 	else
 		context = [NSString stringWithFormat:@"%@ vs %@", [self nameForMatching], [item2 nameForMatching]];
-	
+
 	return [self matches:item2 context:context level:0 block:block];
 }
 
-- (BOOL)matches:(id)item2 context:(NSString *)context level:(NSUInteger)level block:(ECTestComparisonBlock)block
+- (BOOL)matches:(id)item2 context:(NSString*)context level:(NSUInteger)level block:(ECTestComparisonBlock)block
 {
 	BOOL matches = [self isEqual:item2];
 	if (!matches)
@@ -39,7 +37,7 @@
 
 @end
 
-@implementation NSString(ECTestComparisons)
+@implementation NSString (ECTestComparisons)
 
 - (NSString*)nameForMatching
 {
@@ -48,7 +46,7 @@
 
 @end
 
-@implementation NSNumber(ECTestComparisons)
+@implementation NSNumber (ECTestComparisons)
 
 - (NSString*)nameForMatching
 {
@@ -57,9 +55,9 @@
 
 @end
 
-@implementation NSArray(ECTestComparisons)
+@implementation NSArray (ECTestComparisons)
 
-- (BOOL)matches:(id)item2 context:(NSString *)context level:(NSUInteger)level block:(ECTestComparisonBlock)block
+- (BOOL)matches:(id)item2 context:(NSString*)context level:(NSUInteger)level block:(ECTestComparisonBlock)block
 {
 	BOOL matches = [item2 isKindOfClass:[NSArray class]];
 	if (!matches)
@@ -76,7 +74,7 @@
 		for (NSUInteger n = 0; n < min; ++n)
 		{
 			NSString* itemContext = [NSString stringWithFormat:@"%@[%ld]", context, (long)n];
-			matches = [self[n] matches:item2[n] context:itemContext level:level+1 block:block] && matches;
+			matches = [self[n] matches:item2[n] context:itemContext level:level + 1 block:block] && matches;
 		}
 
 		if (c1 < c2)
@@ -99,7 +97,7 @@
 			}
 		}
 	}
-	
+
 	return matches;
 }
 
@@ -110,9 +108,9 @@
 
 @end
 
-@implementation NSDictionary(ECTestComparisons)
+@implementation NSDictionary (ECTestComparisons)
 
-- (BOOL)matches:(id)item2 context:(NSString *)context level:(NSUInteger)level block:(ECTestComparisonBlock)block
+- (BOOL)matches:(id)item2 context:(NSString*)context level:(NSUInteger)level block:(ECTestComparisonBlock)block
 {
 	BOOL matches = [item2 isKindOfClass:[NSDictionary class]];
 	if (!matches)
@@ -130,7 +128,7 @@
 			if (v2)
 			{
 				NSString* itemContext = [NSString stringWithFormat:@"%@[@\"%@\"]", context, key];
-				matches = [v1 matches:v2 context:itemContext level:level+1 block:block] && matches;
+				matches = [v1 matches:v2 context:itemContext level:level + 1 block:block] && matches;
 			}
 			else
 			{
@@ -140,7 +138,7 @@
 			}
 			[keys2 removeObject:key];
 		}
-		
+
 		for (NSString* key in keys2)
 		{
 			NSString* itemContext = [NSString stringWithFormat:@"%@[@\"%@\"] extra key %@", context, key, key];
@@ -148,7 +146,7 @@
 			matches = NO;
 		}
 	}
-	
+
 	return matches;
 }
 
