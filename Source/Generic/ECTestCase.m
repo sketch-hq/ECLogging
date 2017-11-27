@@ -658,7 +658,7 @@
 - (NSURL*)writeOutputImage:(NSBitmapImageRep*)image name:(NSString*)name asReference:(BOOL)asReference {
 	NSURL* desktop = [self URLForOutputAsReference:asReference];
 	NSURL* file = [[desktop URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"png"];
-	NSData* data = [image representationUsingType:NSPNGFileType properties:@{NSImageInterlaced: @YES}];
+	NSData* data = [image representationUsingType:NSPNGFileType properties:@{NSImageInterlaced: @YES, NSImageGamma : [NSNull null]}];
 	[[NSFileManager defaultManager] createDirectoryAtURL:[file URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:@{} error:nil];
 	NSError* error = nil;
 	BOOL written = [data writeToURL:file options:NSDataWritingAtomic error:&error];
