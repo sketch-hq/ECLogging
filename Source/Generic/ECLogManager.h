@@ -13,8 +13,6 @@ EC_ASSUME_NONNULL_BEGIN
 @protocol ECLogManagerDelegate <NSObject>
 @optional
 - (void)logManagerDidStartup:(ECLogManager*)manager;
-- (void)logManagerWillShutdown:(ECLogManager*)manager;
-- (void)showUIForLogManager:(ECLogManager*)manager;
 @end
 
 /**
@@ -34,17 +32,11 @@ EC_ASSUME_NONNULL_BEGIN
 
 + (ECLogManager*)sharedInstance;
 
-// --------------------------------------------------------------------------
-// Public Properties
-// --------------------------------------------------------------------------
-
-@property (strong, nonatomic, ec_nullable) NSMutableArray* defaultHandlers;
-
 /**
  All the ECLogManager settings.
  */
 
-@property (strong, nonatomic, ec_nullable) NSMutableDictionary* settings;
+@property (strong, nonatomic, ec_nullable) NSDictionary *settings;
 
 /**
  Options, as specified in the settings files.
@@ -55,9 +47,6 @@ EC_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<ECLogManagerDelegate> delegate;
 @property (assign, nonatomic) BOOL showMenu;
-@property (assign, nonatomic, readonly, getter=debugChannelsAreEnabled) BOOL debugChannelsAreEnabled;
-@property (assign, nonatomic, readonly, getter=assertionsAreEnabled) BOOL assertionsAreEnabled;
-
 
 /**
  Cleanup and shut down.
@@ -68,24 +57,6 @@ EC_ASSUME_NONNULL_BEGIN
 - (void)shutdown;
 
 
-
-/**
- Has the user suppressed the alert for a given assertion?
- */
-
-- (BOOL)isAssertionSuppressedForKey:(NSString*)key;
-
-/**
- Suppress the alert for a given assertion.
- */
-
-- (void)suppressAssertionForKey:(NSString*)key;
-
-/**
- Remove all assertion suppression settings. All assertions will cause alerts.
- */
-
-- (void)resetAllAssertions;
 
 /**
  Display some UI which allows configuration of the log manager.
